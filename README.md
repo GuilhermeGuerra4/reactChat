@@ -1,5 +1,16 @@
 # reactChat
 
+A chat created with react-native
 
-| teste de tabela |
-| tabela 2 |
+
+
+#Screens
+qwdpqowdqwd
+
+qwdjqwodqwdpqwd
+
+
+#Dependencies
+
+
+qwdojqwpdqwdqwd
