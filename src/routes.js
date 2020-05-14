@@ -17,8 +17,9 @@ import {GoogleSignin,GoogleSigninButton, statusCodes} from '@react-native-commun
 
 const Stack = createStackNavigator();
 
+
 GoogleSignin.configure({
-	webClientId: '290100016532-ccf4v2tjl16kuvn5e7ihvsjv0es0mf01.apps.googleusercontent.com',
+	webClientId: '797686492314-eo7d48gt3lmceqem9n7qbg9q39sbd3cm.apps.googleusercontent.com',
 	offlineAccess: true, 
 	forceCodeForRefreshToken: true,
 });
@@ -36,7 +37,7 @@ export default function App(){
 		(prevState, action) => {
 			switch(action.type){
 				case "SIGN_IN":
-					return {isLoading: false, userToken: "123", isSigned: true}
+					return {isLoading: false, userToken: action.idToken, isSigned: true}
 				case "SIGN_OUT":
 					return {isSigned: false}
 				default:
@@ -50,12 +51,11 @@ export default function App(){
 		isSigned: false,
 	});
 
+
 	React.useEffect(() => {
-		
+
 		const verifyLogin = async () => {
 			await AsyncStorage.getItem("idToken").then((idToken) => {
-				const isSignedIn = GoogleSignin.isSignedIn();
-				
 				if(idToken != null){
 					dispatch({type: "SIGN_IN", idToken: idToken});
 				}
@@ -73,15 +73,16 @@ export default function App(){
 			try{
 				await GoogleSignin.hasPlayServices();
 				const userInfo = await GoogleSignin.signIn();
+				
 				await AsyncStorage.setItem("idToken", userInfo.idToken, () => {
 					dispatch({type: "SIGN_IN", idToken: userInfo.idToken});
 				});
 			}
 			catch(error){
-				if(error.code === statusCodes.SIGN_IN_CANCELLED){
-					alert("Login cancelled");
-				}
+				console.log(error);
 			}
+			
+			
 		},
 
 		signOut: async () => {
@@ -91,7 +92,6 @@ export default function App(){
 		},
 
 	}), []);
-
 
 	if(state.isLoading){
 		return(<View><Text>Loading</Text></View>);

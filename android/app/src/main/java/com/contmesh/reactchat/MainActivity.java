@@ -1,4 +1,4 @@
-package com.reactchat;
+package com.contmesh.reactchat;
 
 import com.facebook.react.ReactActivity;
 

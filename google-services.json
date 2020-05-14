@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "797686492314",
+    "firebase_url": "https://reactchat-8ba65.firebaseio.com",
+    "project_id": "reactchat-8ba65",
+    "storage_bucket": "reactchat-8ba65.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:797686492314:android:c926498e5195c0cbf7c323",
+        "android_client_info": {
+          "package_name": "com.contmesh.reactchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "797686492314-dvv5d7nudunpq8bb70c7rktn4p4pa7hk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.contmesh.reactchat",
+            "certificate_hash": "5f0e7c2cd8e50336ed5cb49c6ee7912c4a9f1e18"
+          }
+        },
+        {
+          "client_id": "797686492314-eo7d48gt3lmceqem9n7qbg9q39sbd3cm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqYB3EGTFm24yZIKKKS5FeGJZKsgyCU8o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "797686492314-eo7d48gt3lmceqem9n7qbg9q39sbd3cm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

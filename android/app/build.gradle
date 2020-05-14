@@ -129,10 +129,11 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.reactchat"
+        applicationId "com.contmesh.reactchat"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
+        multiDexEnabled true
         versionName "1.0"
     }
     splits {
@@ -145,10 +146,17 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('android-5rWlu.keystore')
-            storePassword 'fLxOTbHqOgC5YQE0'
-            keyAlias 'keyalias'
-            keyPassword 'fLxOTbHqOgC5YQE0'
+            storeFile file('key.keystore')
+            storePassword 'dwjp3JOP'
+            keyAlias 'androidkey'
+            keyPassword 'qOjpw3r990'
+
+        //    storeFile file('debug.keystore')
+        //    storePassword "android"
+        //    keyAlias "androiddebugkey"
+        //    keyPassword "android"
+
+
         }
     }
     buildTypes {

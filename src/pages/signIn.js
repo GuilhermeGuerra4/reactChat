@@ -1,7 +1,5 @@
 import * as React from "react";
 import {Text, View} from "react-native";
-
-
 import AsyncStorage from '@react-native-community/async-storage';
 import {AuthContext} from "../components/context";
 import {GoogleSigninButton} from "@react-native-community/google-signin";

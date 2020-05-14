@@ -13,6 +13,8 @@
     "@react-native-community/async-storage": "^1.10.0",
     "@react-native-community/google-signin": "^4.0.1",
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-native-firebase/app": "^7.0.1",
+    "@react-native-firebase/firestore": "^7.0.1",
     "@react-navigation/native": "^5.2.6",
     "@react-navigation/stack": "^5.3.1",
     "axios": "^0.19.2",
