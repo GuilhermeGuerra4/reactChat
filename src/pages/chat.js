@@ -1,8 +1,15 @@
 import React, {Component} from "react";
 import {Text, View, StyleSheet, ScrollView, TextInput, TouchableNativeFeedback, Keyboard, TouchableOpacity} from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import {AuthContext} from "../components/context";
+
 
 export default class App extends Component{
   
+  static contextType = AuthContext;
+
   constructor(props){
     super(props);
 
@@ -19,7 +26,6 @@ export default class App extends Component{
       input: "",
       
     };
-
   }
 
   addMsg(){
@@ -46,11 +52,26 @@ export default class App extends Component{
         this.keyboardDidShowListener.remove();
   }
 
+  async logout(){
+   
+    try{
+        alert("SIGN-OUT");
+        this.context.signOut();  
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
+
   render(){
     return (
         <View style={{flex: 1}}>
             
-          <View style={styles.header}></View>
+          <View style={styles.header}>
+            <TouchableNativeFeedback onPress={() => {this.logout()}}>
+              <Text>Logout</Text>
+            </TouchableNativeFeedback>
+          </View>
 
           <ScrollView style={styles.msgs}
             ref={ref => {this.scroll = ref}}
@@ -59,14 +80,14 @@ export default class App extends Component{
             <View style={{marginBottom: 15}}></View>
             {this.state.msgs.map((item, index) => (
 
-                <TouchableOpacity>
-                  <View style={item.isRight ? styles.right : styles.left }>
-                      <Text style={item.isRight ? {color: "#fff"} : {}}>{item.title}</Text>
-                  </View>
-                </TouchableOpacity>
+                  <TouchableOpacity key={index} style={item.isRight ? styles.right : styles.left}>
+                    <Text style={item.isRight ? {color: "#fff"} : {}}>{item.title}</Text>
+                  </TouchableOpacity>
+                
 
             ))}
 
+            <View style={{marginBottom: 15}}></View>
           </ScrollView>
 
           <View style={styles.in}>
@@ -76,13 +97,12 @@ export default class App extends Component{
               multiline style={styles.on} 
               placeholder={"Mensagem"} />
             
-             
-                <View style={styles.btc}>
-                   <TouchableNativeFeedback onPress={this.addMsg.bind(this)}>
-                      <Text>Enviar</Text>
-                    </TouchableNativeFeedback>
-                </View>
-              
+              <TouchableNativeFeedback onPress={this.addMsg.bind(this)}>
+                  <View style={styles.btc}>
+                        <Text>Enviar</Text>    
+                  </View>
+               </TouchableNativeFeedback>
+
             </View>
         
         </View>
@@ -103,29 +123,28 @@ const styles = StyleSheet.create({
     height: "auto",
   },
   left: {
+    marginLeft: 15,
+    marginTop: 5,
     padding: 15,
     paddingLeft: 20,
     paddingRight: 20,
-    marginLeft: 20,
-    marginBottom: 5,
-    flex: 0,
     maxWidth: "70%",
     alignSelf: "flex-start",
     backgroundColor: "#ddd",
     borderRadius: 50 / 2,
   },
   right: {
+    marginRight: 15,
+    marginTop: 5,
     padding: 15,
     paddingLeft: 20,
     paddingRight: 20,
-    marginRight: 20,
-    marginTop: 0,
-    marginBottom: 5,
     maxWidth: "70%",
     backgroundColor: "#00aaFF",
     borderRadius: 50 / 2,
     alignSelf: "flex-end",
   },
+
 
   in: {
     backgroundColor: "red",
@@ -154,6 +173,5 @@ const styles = StyleSheet.create({
     height: "100%",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 100 / 2,
   }
 });

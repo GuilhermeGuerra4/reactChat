@@ -1,0 +1,4 @@
+Keystore: android-5rWlu.keystore
+Keystore password: fLxOTbHqOgC5YQE0
+Key alias: keyalias
+Key password: fLxOTbHqOgC5YQE0
