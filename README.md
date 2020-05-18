@@ -3,8 +3,7 @@
 A simple chat created with react-native
 
 
-![teste](https://github.com/GuilhermeGuerra4/reactChat/blob/master/src/assets/imgs/settings.png?raw=true)
-
+<img src="https://github.com/GuilhermeGuerra4/reactChat/blob/master/src/assets/imgs/settings.png?raw=true&v=100" width="100px" height="100px">
 
 ##  functionalities
 
