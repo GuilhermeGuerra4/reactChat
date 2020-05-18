@@ -2,7 +2,7 @@
 
 A simple chat created with react-native
 
-#  functionalities
+##  functionalities
 
 - send messages
 - receive messages
