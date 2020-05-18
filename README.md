@@ -1,16 +1,9 @@
 # reactChat
 
-A chat created with react-native
+A simple chat created with react-native
 
+#  functionalities
 
-
-#Screens
-qwdpqowdqwd
-
-qwdjqwodqwdpqwd
-
-
-#Dependencies
-
-
-qwdojqwpdqwdqwd
+- send messages
+- receive messages
+- 

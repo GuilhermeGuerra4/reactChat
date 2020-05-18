@@ -8,14 +8,17 @@ import SignInScreen from "./pages/signIn";
 import ContactsScreen from "./pages/contacts";
 import ConfigsScreen from "./pages/configs";
 
-import {View, Text} from "react-native";
+import DefaultTransition from "./animations/defaultTransition";
+
+import {View, Text, Animated} from "react-native";
 import AsyncStorage from '@react-native-community/async-storage';
 
 import {AuthContext} from "./components/context";
 
 import {GoogleSignin,GoogleSigninButton, statusCodes} from '@react-native-community/google-signin';
 
-import { TransitionPresets } from '@react-navigation/stack';
+import { TransitionPresets, TransitionSpecs, HeaderStyleInterpolators } from '@react-navigation/stack';
+
 
 GoogleSignin.configure({
 	webClientId: '797686492314-eo7d48gt3lmceqem9n7qbg9q39sbd3cm.apps.googleusercontent.com',
@@ -47,7 +50,7 @@ export default function App(){
 	});
 
 
-//	React.useEffect(() => {
+
 
 	const verifyLogin = async () => {
 		await AsyncStorage.getItem("idToken").then((idToken) => {
@@ -61,7 +64,7 @@ export default function App(){
 	}
 
 	verifyLogin();
-//	});
+
 
 
 	const Auth = React.useMemo(() => ({
@@ -112,9 +115,11 @@ export default function App(){
 		return(<View><Text>Loading</Text></View>);
 	}
 
+	
+
 	const options = {
 		headerShown: false,
-		...TransitionPresets.SlideFromRightIOS,
+ 		...DefaultTransition,
 	};
 
 	return(
@@ -139,8 +144,11 @@ export default function App(){
 
 								<Stack.Screen 
 									name="Chat" 
+
 									component={ChatScreen}/>
 							</>
+
+
 							
 							) : (
 
