@@ -6,4 +6,4 @@ A simple chat created with react-native
 
 - send messages
 - receive messages
-- 
+- test
