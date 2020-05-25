@@ -3,14 +3,13 @@ import {View, Text, FlatList, TouchableOpacity, YellowBox, StyleSheet} from "rea
 
 import AsyncStorage from '@react-native-community/async-storage';
 
-
-import io from "socket.io-client";
-
 import Header from "../components/header";
 import ChatItem from "../components/chat-item";
 
 
 import {AuthContext} from "../components/context";
+import Socket from "../functions/socket";
+
 
 export default class App extends Component{
 
@@ -19,12 +18,12 @@ export default class App extends Component{
 	constructor(props){
 		super(props);
 		
-
 		this.state = {
+			teste: null,
 			index: 0,
+			updated: false,
 			messages: [
-				{date: {_nanoseconds: 0, _seconds: 1589410802}, from: {email: "guilhermeguerra12345@gmail.com", id: "108525094048443059463", name: "Guilherme Guerra", photo: "https://lh5.googleusercontent.com/-_lfhI9K7C5Y/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuck9TuHqC3-WixlILvlxCV8_QF61oA/s96-c/photo.jpg"}, message: "hey boi", status: "sent", to: "guilhermeguerra12345@gmail.com"}
-				,{date: {_nanoseconds: 0, _seconds: 1589410803}, from: {email: "guilhermeguerra12345@gmail.com", id: "108525094048443059463", name: "Guilherme Guerra", photo: "https://lh5.googleusercontent.com/-_lfhI9K7C5Y/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuck9TuHqC3-WixlILvlxCV8_QF61oA/s96-c/photo.jpg"}, message: "hey boi", status: "sent", to: "guilhermeguerra12345@gmail.com"}
+				{"from": {"email": "seutrocooficial@gmail.com", "name": "Seutroco Oficial", "photo": "https://lh3.googleusercontent.com/a-/AOh14GiTwMq5Yr91x8bLcnuoXE5hlBkQrvCH6v1mpGUQ=s96-c"}, "message": "first", "timestamp": 1590438206.3876874}
 			],
 		};
 
@@ -34,48 +33,44 @@ export default class App extends Component{
 		]);
 	}
 
-	componentDidMount(){
-		
-		this.socket = io("http://127.0.0.1:3000", {
-			timeout: 3000,
-			pingTimeout: 3000,
-			transports: ['websocket'],	
-			jsonp: false,
-			agent: '-',
-			pfx: '-',
-			cert: '-',
-			ca: '-',
-			ciphers: '-',
-			rejectUnauthorized: '-',
-			perMessageDeflate: '-' 
-		});
+	stateHandler(new_message){
+		let isNew = true;
+		let itemIndex;
+		let newArray = this.state.messages;
 
+		for(i = 0; i<this.state.messages.length;i++){
+			if(this.state.messages[i].from.email == new_message.from.email){
+				isNew = false;
+				itemIndex = i;
+			}
+		}
 
-		this.socket.on("connect", msg => {
+		if(isNew == true){
+			this.setState({messages: [new_message, ...this.state.messages]});
+		}
+		else{
+			newArray[itemIndex] = new_message;
+			
+			let temp = newArray[itemIndex];
 
-			console.log("connected");
-
-			const handShake = async () => {
-				await AsyncStorage.multiGet(["id", "photo", "email", "name"], (error, response) => {
-					const data = {};
-				
-					response.forEach(item => {
-						data[item[0]] = item[1];
-					});
-
-					this.socket.emit("signedUpVerify", JSON.stringify(data));
-				});
+			for(i=itemIndex;i>0;i--){
+				newArray[i] = newArray[i-1];
 			}
 
-			handShake();
+			newArray[0] = temp;
+			this.setState({messages: newArray});
+		}
+	}
 
-	    	
-	    });
+	componentDidMount(){
+		const connect = async () => {
+			await AsyncStorage.getItem("token").then((token) => {
+				this.conn = new Socket();
+				this.conn.connect(token, this.stateHandler.bind(this));
+			})
+		}
 
-	    this.socket.on("teste", msg => {
-	    	//alert(msg);
-	    });
-
+		connect();
 	}
 
 	componentWillUnmount(){
@@ -86,28 +81,23 @@ export default class App extends Component{
 	}
 
 	generateKey(item){
-		return item.date._seconds.toString()+item.from.id.toString()+item.to.toString();
-	}
-
-	console(){
-		this.socket.emit("teste", "haha");
+		return(item.timestamp.toString()+item.from.email.toString());
 	}
 
 	render(){
 		return(
-
-
 				<View style={styles.mainContainer}>
 
-					<Header console={this.console.bind(this)} navigation={this.props.navigation}/>		
+					<Header/>		
 
 					{
 						this.state.messages.length > 0 ? (
-						
+					<View>	
 					<FlatList 
 						data={this.state.messages}
 						keyExtractor={(item) => {return this.generateKey(item)}}
 						renderItem={(item) => this.contacts(item)}/>
+					</View>
 
 					) : (
 
@@ -125,5 +115,11 @@ const styles = StyleSheet.create({
 	mainContainer: {
 		flex: 1,
 		backgroundColor: "#fff",
+	},
+	signout: {
+		marginTop: 20,
+		padding: 10,
+		backgroundColor: "red",
+		alignSelf: "center",
 	}
 });

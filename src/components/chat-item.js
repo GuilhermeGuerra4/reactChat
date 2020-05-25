@@ -24,7 +24,7 @@ export default class ChatItem extends Component{
 						<Image style={styles.image} source={{uri: this.data.from.photo}}/>
 						<View style={styles.texts}>
 							<Text style={styles.name}>{this.data.from.name}</Text>
-							<Text style={styles.preview}>i sent you this message because...</Text>
+							<Text style={styles.preview}>{this.data.message.length < 20 ? this.data.message : this.data.message.substring(0, 20) + '...'}</Text>
 						</View>
 						<View style={this.hasMessage ? styles.msgs : {}}></View> 
 					</View>

@@ -1,3 +1,5 @@
+import {TransitionSpecs} from "@react-navigation/stack";
+
 export const DefaultTransition = {
 	  gestureDirection: 'horizontal',
 	  transitionSpec: {
@@ -17,17 +19,7 @@ export const DefaultTransition = {
 	 
 	        ],
 	      },
-	      containerStyle: {
-	         transform: [
-	          {
-	            translateX: current.progress.interpolate({
-	              inputRange: [0, 0],
-	              outputRange: [layouts.screen.width, 0],
-	            }),
-	          },
-	 
-	        ],
-	      },
+	     
 	    };
 	  },
 	}

@@ -8,16 +8,19 @@ import SignInScreen from "./pages/signIn";
 import ContactsScreen from "./pages/contacts";
 import ConfigsScreen from "./pages/configs";
 
-import DefaultTransition from "./animations/defaultTransition";
+import {DefaultTransition} from "./animations/defaultTransition";
 
 import {View, Text, Animated} from "react-native";
 import AsyncStorage from '@react-native-community/async-storage';
 
 import {AuthContext} from "./components/context";
+import httpsRequest from "./functions/httpRequest";
+
 
 import {GoogleSignin,GoogleSigninButton, statusCodes} from '@react-native-community/google-signin';
 
 import { TransitionPresets, TransitionSpecs, HeaderStyleInterpolators } from '@react-navigation/stack';
+
 
 
 GoogleSignin.configure({
@@ -25,6 +28,7 @@ GoogleSignin.configure({
 	offlineAccess: true, 
 	forceCodeForRefreshToken: true,
 });
+
 
 const Stack = createStackNavigator();
 
@@ -49,9 +53,6 @@ export default function App(){
 		isSigned: false,
 	});
 
-
-
-
 	const verifyLogin = async () => {
 		await AsyncStorage.getItem("idToken").then((idToken) => {
 			if(idToken != null){
@@ -65,15 +66,13 @@ export default function App(){
 
 	verifyLogin();
 
-
-
 	const Auth = React.useMemo(() => ({
 		
 		signIn: async () => {
-
 			try{
 				await GoogleSignin.hasPlayServices();
 				const userInfo = await GoogleSignin.signIn();
+
 				const data = [
 					["idToken", userInfo.idToken],
 					["id", userInfo.user.id],
@@ -82,18 +81,18 @@ export default function App(){
 					["name", userInfo.user.name],
 				];
 
-				await AsyncStorage.multiSet(data, () => {
-					
-					try{
-							
-							
-					}catch(error){
-						console.log(error);
+				await httpsRequest.post('/get_token', 'token='+userInfo.idToken+'&email='+userInfo.user.email).then((res) => {
+					data.push(["token", res.data.token]);
+
+					const save = async (data) => {
+						await AsyncStorage.multiSet(data, () => {
+							dispatch({type: "SIGN_IN", idToken: userInfo.idToken});	
+						});
 					}
-					finally{
-						dispatch({type: "SIGN_IN", idToken: userInfo.idToken});
-					}
-				});
+
+					save(data);
+
+				}, {'Content-Type': 'application/x-www-form-urlencoded',});
 			}
 			catch(error){
 				console.log(error);
@@ -103,16 +102,17 @@ export default function App(){
 		},
 
 		signOut: async () => {
+			await GoogleSignin.revokeAccess();
+			await GoogleSignin.signOut();
 			const keys = await AsyncStorage.getAllKeys();
-        	await AsyncStorage.multiRemove(keys, () => {
-				dispatch({type: "SIGN_OUT"});
-			});
+        	await AsyncStorage.multiRemove(keys);
+	        dispatch({type: "SIGN_OUT"});
 		},
 
 	}), []);
 
 	if(state.isLoading){
-		return(<View><Text>Loading</Text></View>);
+		return(<View></View>);
 	}
 
 	
@@ -150,28 +150,15 @@ export default function App(){
 
 
 							
-							) : (
-
-							
-						
-							
+							) : (		
 							<Stack.Screen 
 								name="SignIn" 
 								component={SignInScreen}/>
-				
-							
 							)
-							
 						}
-
-					
-
-						
-
 
 					</Stack.Navigator>
 			</NavigationContainer>
 		</AuthContext.Provider>
 		);
-
 }
