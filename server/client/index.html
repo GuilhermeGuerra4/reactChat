@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Chat</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+	
+	<header>
+		<center>
+			<input type="text" id="token" value="62f0c7fcd6655372e031d5a98b5a19b11895382168f6d13a36b3272a29feae0a" placeholder="token">
+			<button id="login">Login</button>
+			<span id="status">Status</span>
+		</center>
+	</header>
+
+
+	<div class="window" id="messagesbox">
+
+	</div>
+	
+	<div class="input">
+		<input type="text" id="receiver" value="guilhermeguerra12345@gmail.com" placeholder="Receiver">
+	</div>
+
+	<div class="input">
+		<input type="text" id="msg" placeholder="Msg" disabled="true">
+	</div>
+
+</body>
+ <script src="index.js"></script>
+</html>

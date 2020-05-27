@@ -22,7 +22,7 @@ export default class Header extends Component{
 			<View style={styles.container}>
 				<StatusBar backgroundColor="#0081ff"/>
 				<Text style={styles.title}>ReactChat</Text>
-				<TouchableOpacity style={styles.icon} onPress={() => {this.props.console()}}>
+				<TouchableOpacity style={styles.icon} onPress={() => {this.props.teste()}}>
 					<Image style={styles.icon} source={settingsIcon}/>
 				</TouchableOpacity>
 			</View>

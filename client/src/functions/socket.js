@@ -4,17 +4,22 @@ import io from "socket.io-client";
 export default class Socket{
 	
 	constructor(){
-		this.serverUri = "http://localhost:3000";
+		this.serverUri = "http://85.242.4.235:3000";
 	}
 
 	add(res){
 		this.handler(res);
 	}
 
-	connect(token, handler){
+	updateStatus(res){
+		this.handler2(res);
+	}
+
+	connect(token, handler, handler2){
 		
 		this.token = token;
 		this.handler = handler;
+		this.handler2 = handler2;
 
 		this.socket = io(this.serverUri, {
 			transports: ["websocket"],
@@ -35,7 +40,23 @@ export default class Socket{
 			this.add(res);
 		});
 
+		this.socket.on('get_status', res => {
+			this.updateStatus(res);
+		});
+
 		this.socket.open();
+	}
+
+	sendMessage(token, message, email){
+		this.socket.emit('message', {'token':token, 'text':message, 'receiver':email});
+	}
+
+	updateReaded(email){
+		this.socket.emit('update_readed', {'token': this.token, 'email': email});
+	}
+
+	getStatus(email){
+		this.socket.emit('get_status', {'token': this.token,'email': email});
 	}
 
 	signout(){

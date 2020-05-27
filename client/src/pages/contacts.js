@@ -1,5 +1,5 @@
 import React, {Component, useEffect, useState} from "react";
-import {View, Text, FlatList, TouchableOpacity, YellowBox, StyleSheet} from "react-native";
+import {View, Text, FlatList, TouchableOpacity, TouchableNativeFeedback, ActivityIndicator, YellowBox, StyleSheet} from "react-native";
 
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -10,6 +10,8 @@ import ChatItem from "../components/chat-item";
 import {AuthContext} from "../components/context";
 import Socket from "../functions/socket";
 
+import uuid from "react-native-uuid";
+import httpsRequest from "../functions/httpRequest";
 
 export default class App extends Component{
 
@@ -22,8 +24,8 @@ export default class App extends Component{
 			teste: null,
 			index: 0,
 			updated: false,
+			isLoading: true,
 			messages: [
-				{"from": {"email": "seutrocooficial@gmail.com", "name": "Seutroco Oficial", "photo": "https://lh3.googleusercontent.com/a-/AOh14GiTwMq5Yr91x8bLcnuoXE5hlBkQrvCH6v1mpGUQ=s96-c"}, "message": "first", "timestamp": 1590438206.3876874}
 			],
 		};
 
@@ -33,7 +35,36 @@ export default class App extends Component{
 		]);
 	}
 
+	update(){
+		this.setState({isLoading: true,messages: []}, () => {
+			this.add(this.token);
+		});
+	}
+
+	async add(token){
+		try{
+			await httpsRequest.post('/get_messages', 'token='+token+'&limit=10&page=1').then((res) => {
+				
+				console.log(res.data);
+				
+				if(res.data.messages.length != 0){
+					this.setState({messages: [...res.data.messages, ...this.state.messages], isLoading: false})
+				}
+				else{
+					this.setState({isLoading: false})
+				}
+
+
+			}, {'Content-Type': 'application/x-www-form-urlencoded',});
+		}
+		catch(error){
+			console.log(error);
+		}
+	}
+
+
 	stateHandler(new_message){
+		console.log(new_message);
 		let isNew = true;
 		let itemIndex;
 		let newArray = this.state.messages;
@@ -65,15 +96,22 @@ export default class App extends Component{
 	componentDidMount(){
 		const connect = async () => {
 			await AsyncStorage.getItem("token").then((token) => {
+				this.token = token;
+				this.add(token);
 				this.conn = new Socket();
 				this.conn.connect(token, this.stateHandler.bind(this));
 			})
 		}
-
 		connect();
+	
+		this.screenOnFocus = this.props.navigation.addListener('focus', () => {
+			this.update();
+		});
+
 	}
 
 	componentWillUnmount(){
+		this.screenOnFocus();
 	}
 
 	contacts(item){
@@ -81,30 +119,47 @@ export default class App extends Component{
 	}
 
 	generateKey(item){
-		return(item.timestamp.toString()+item.from.email.toString());
+		return(uuid.v1());
 	}
 
 	render(){
 		return(
 				<View style={styles.mainContainer}>
 
-					<Header/>		
+					<TouchableNativeFeedback onPress={() => {this.props.navigation.navigate('AddContact')}}>
+						<View style={styles.floatButton}>
+							<Text style={styles.btctxt}>+</Text>
+						</View>
+					</TouchableNativeFeedback>
+
+					<Header teste={() => {this.context.signOut()}}/>		
 
 					{
-						this.state.messages.length > 0 ? (
-					<View>	
+						this.state.isLoading == false ? (
+					<View>
+
 					<FlatList 
 						data={this.state.messages}
 						keyExtractor={(item) => {return this.generateKey(item)}}
 						renderItem={(item) => this.contacts(item)}/>
+						
 					</View>
 
 					) : (
 
-						<View>
-							<Text style={{alignSelf: "center", marginTop: 30,fontSize: 19,color: "#777"}}>None message yet</Text>
-						</View>)
-					}
+					
+					<View><ActivityIndicator size={40} color={"#0088ff"} style={styles.loading}/></View>
+						
+
+					)}
+
+
+				{this.state.isLoading == false && this.state.messages.length == 0 ? 
+
+					(<Text style={styles.none}>None messages yet</Text>) : 
+
+					(<View></View>)}
+
 
 				</View>
 			)
@@ -121,5 +176,31 @@ const styles = StyleSheet.create({
 		padding: 10,
 		backgroundColor: "red",
 		alignSelf: "center",
+	},
+	floatButton: {
+		position: "absolute",
+		backgroundColor: "#fff",
+		width: 60,
+		height: 60,
+		elevation: 10,
+		borderRadius: 100 /2,
+		bottom: 50,
+		right: 30,
+		alignItems: "center",
+	},
+	btctxt: {
+		fontSize: 40,
+		color: "#333",
+		textAlign: "center",
+	},
+	loading:{
+		marginTop: 30,
+		alignSelf:"center",
+	},
+	none: {
+		textAlign: "center",
+		marginTop: 30,
+		fontSize: 20,
+		color: "#444",
 	}
 });

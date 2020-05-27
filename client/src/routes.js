@@ -7,6 +7,8 @@ import ChatScreen from "./pages/chat";
 import SignInScreen from "./pages/signIn";
 import ContactsScreen from "./pages/contacts";
 import ConfigsScreen from "./pages/configs";
+import AddContactScreen from "./pages/addContact";
+
 
 import {DefaultTransition} from "./animations/defaultTransition";
 
@@ -146,6 +148,11 @@ export default function App(){
 									name="Chat" 
 
 									component={ChatScreen}/>
+
+								<Stack.Screen 
+									name="AddContact" 
+
+									component={AddContactScreen}/>
 							</>
 
 

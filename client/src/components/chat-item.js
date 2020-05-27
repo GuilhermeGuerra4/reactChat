@@ -10,23 +10,23 @@ export default class ChatItem extends Component{
 	}
 
 	componentDidMount(){
-
+		console.log('readed: ', this.data.readed);
 	}
 
-	goToChat(){
-		this.props.navigation.navigate("Chat");
+	goToChat(name, email, photo){
+		this.props.navigation.navigate("Chat", {photo: photo, name: name, email: email});
 	}
 
 	render(){
 		return(
-				<TouchableNativeFeedback onPress={() => {this.goToChat()}}>
+				<TouchableNativeFeedback onPress={() => {this.goToChat(this.data.from.name, this.data.from.email, this.data.from.photo)}}>
 					<View style={styles.container}>
 						<Image style={styles.image} source={{uri: this.data.from.photo}}/>
 						<View style={styles.texts}>
 							<Text style={styles.name}>{this.data.from.name}</Text>
 							<Text style={styles.preview}>{this.data.message.length < 20 ? this.data.message : this.data.message.substring(0, 20) + '...'}</Text>
 						</View>
-						<View style={this.hasMessage ? styles.msgs : {}}></View> 
+						<View style={this.data.readed == 0 ? styles.msgs : {}}></View> 
 					</View>
 				</TouchableNativeFeedback>
 			)
