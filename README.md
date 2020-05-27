@@ -5,8 +5,10 @@ A simple app chat created with react-native
 ## screens
 
 <p float="left">
-	<img src="https://github.com/GuilhermeGuerra4/reactChat/blob/master/images/signin.jpg?raw=true&v=100" width="200px" height="300px">
-	<img src="https://github.com/GuilhermeGuerra4/reactChat/blob/master/images/contacts_message.jpg?raw=true&v=100" width="200px" height="300px">
+	<img src="https://github.com/GuilhermeGuerra4/reactChat/blob/master/images/signin.jpg?raw=true&v=100" width="200px" height="400px">
+	<img src="https://github.com/GuilhermeGuerra4/reactChat/blob/master/images/contacts_message.jpg?raw=true&v=100" width="200px" height="400px">
+	<img src="https://github.com/GuilhermeGuerra4/reactChat/blob/master/images/chat.jpg?raw=true&v=100" width="200px" height="400px">
+	<img src="https://github.com/GuilhermeGuerra4/reactChat/blob/master/images/add_contact.jpg?raw=true&v=100" width="200px" height="400px">
 </p>
 
 ##  functionalities
