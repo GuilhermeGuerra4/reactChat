@@ -2,8 +2,10 @@
 
 A simple chat created with react-native
 
+## screens
 
-<img src="https://github.com/GuilhermeGuerra4/reactChat/blob/master/src/assets/imgs/settings.png?raw=true&v=100" width="100px" height="100px">
+### Login
+<img src="https://github.com/GuilhermeGuerra4/reactChat/blob/master/images/screen1.jpg?raw=true&v=100" width="100px" height="100px">
 
 ##  functionalities
 
