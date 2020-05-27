@@ -124,7 +124,11 @@ export default class App extends Component{
 		return(
 				<View style={styles.mainContainer}>
 
-					<TouchableNativeFeedback onPress={() => {this.props.navigation.navigate('AddContact')}}>
+					<TouchableNativeFeedback 
+						onPress={() => {this.props.navigation.navigate('AddContact')}}
+						useForeground={true}
+						background={TouchableNativeFeedback.Ripple('#ccc', true)}
+						>
 						<View style={styles.floatButton}>
 							<Text style={styles.btctxt}>+</Text>
 						</View>
@@ -146,7 +150,9 @@ export default class App extends Component{
 					) : (
 
 					
-					<View><ActivityIndicator size={40} color={"#0088ff"} style={styles.loading}/></View>
+					<View>
+						<ActivityIndicator size={40} color={"#0088ff"} style={styles.loading}/>
+					</View>
 						
 
 					)}
@@ -181,7 +187,7 @@ const styles = StyleSheet.create({
 		width: 60,
 		height: 60,
 		elevation: 10,
-		borderRadius: 100 /2,
+		borderRadius: 40,
 		bottom: 50,
 		right: 30,
 		alignItems: "center",
