@@ -9,6 +9,7 @@ export default class App extends Component{
 
 		this.state = {
 			handlerInput: "",
+			response: "",
 		}
 	}
 
@@ -23,7 +24,7 @@ export default class App extends Component{
 				this.props.navigation.navigate("Chat", {photo: photo, name: name, email: email});
 			}
 			else{
-				alert("User not found");
+				this.setState({response: 'User not found'});
 			}
 		}, {'Content-Type': 'application/x-www-form-urlencoded',});
 	}
@@ -46,6 +47,8 @@ export default class App extends Component{
 					<Text style={styles.text}>Search</Text>
 				</View>
 			</TouchableNativeFeedback>
+
+			<Text style={styles.response}>{this.state.response}</Text>
 
 		</View>)
 	}
@@ -77,5 +80,10 @@ const styles = StyleSheet.create({
 	text: {
 		color: "#fff",
 		fontSize: 16,
+	},
+	response: {
+		marginTop: 10,
+		fontSize: 14,
+		color: "#ff2222",
 	},
 });
