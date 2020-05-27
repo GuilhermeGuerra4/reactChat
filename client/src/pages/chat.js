@@ -160,9 +160,9 @@ export default class App extends Component{
   renderItem(item){
     item = item.item;
     return(
-    <TouchableOpacity style={item.isRight ? styles.right : styles.left}>
+    <View style={item.isRight ? styles.right : styles.left}>
       <Text style={item.isRight ? {color: "#fff"} : {}}>{item.title}</Text>
-    </TouchableOpacity>
+    </View>
     )
   }
 
@@ -170,17 +170,6 @@ export default class App extends Component{
     return(
         <ActivityIndicator color={"#0088ff"} size={45}/>
       )
-  }
-
-  async logout(){
-   
-    try{
-        alert("SIGN-OUT");
-        this.context.signOut();  
-    }
-    catch(e){
-      console.log(e);
-    }
   }
 
   render(){
