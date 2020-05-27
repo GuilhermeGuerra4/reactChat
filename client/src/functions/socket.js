@@ -28,11 +28,9 @@ export default class Socket{
 		
 		this.socket.on("connect", msg => {
 			this.socket.emit('signin', {token: this.token});
-			console.log("CONNECTED")
 		});
 
 		this.socket.on("connect_error", res => {
-			console.log(res)
 			this.socket.close();
 		});
 
@@ -64,9 +62,7 @@ export default class Socket{
 	}
 
 	componentWillUnmount(){
-		if(this.socket.connected){
-			print("disco");
-		}
+	
 	}
 
 	render(){
