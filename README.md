@@ -13,12 +13,12 @@ A simple app chat created with react-native
 
 ##  functionalities
 
-- send messages
-- receive messages
-- see the user status "whether if he is online or not"
-- see the last time the user was online
-- add contact by email
-- login with google signin button
+- Send messages
+- Receive messages
+- See the user status "whether if he is online or not"
+- See the last time the user was online
+- Add contact by email
+- Login with google signin button
 
 ## stack used
 - Flask
@@ -28,5 +28,5 @@ A simple app chat created with react-native
 
 ## to-do next
 
-- [ ] push notification
-- [ ] sqlite storage in client side
+- [ ] Push notification
+- [ ] Sqlite storage in client side
