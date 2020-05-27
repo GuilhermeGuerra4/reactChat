@@ -12,7 +12,7 @@ export default class App extends Component{
   
   static contextType = AuthContext;
 
-  constructor(props){
+    constructor(props){
     super(props);
 
 
@@ -42,24 +42,25 @@ export default class App extends Component{
   }
 
   addMsg(){
-
-    if(this.state.input.trim() != ""){
-      this.conn.sendMessage(this.token, this.state.input, this.email);
-      this.setState(
-            {
-              msgs: [...this.state.msgs, ...[{title: this.state.input, isRight: true}]],
-              input: "",
-            }
-        );
-    }
+   console.log(this.scroll);
+   this.scrollBottom();
+   if(this.state.input.trim() != ""){
+   this.conn.sendMessage(this.token, this.state.input, this.email);
+   this.setState(
+         {
+           msgs: [{title: this.state.input, isRight: true}, ...this.state.msgs],
+           input: "",
+         }
+     );
+   }
   } 
 
   async load(token){
     try{
       await httpsRequest.post('/get_messages_chat', 'token='+token+'&email='+this.email).then((res) => {
-        console.log(res.data);
+
         if(res.data.messages.length != 0){
-          this.setState({msgs: [...this.state.msgs, ...res.data.messages], isLoading: false})
+          this.setState({msgs: [...this.state.msgs, ...res.data.messages.reverse()], isLoading: false})
         }
         else{
           this.setState({isLoading: false})
@@ -74,13 +75,13 @@ export default class App extends Component{
   }
 
   scrollBottom(){
-      this.scroll.scrollToEnd();
+      this.scroll.scrollToOffset({animated: false, offset: 0});
   }
 
   stateHandler(new_message){
     this.conn.updateReaded(this.email);
     if(this.email == new_message.from.email){
-      this.setState({msgs: [...this.state.msgs, {title: new_message.message, isRight: false}]});
+      this.setState({msgs: [{title: new_message.message, isRight: false}, ...this.state.msgs]});
     }
   }
 
@@ -131,8 +132,6 @@ export default class App extends Component{
   }
 
   componentDidMount(){
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.scrollBottom.bind(this));
-    this.scroll.scrollToEnd({animated: false});
     const connect = async () => {
       await AsyncStorage.getItem("token").then((token) => {
         this.load(token);
@@ -151,8 +150,6 @@ export default class App extends Component{
   }
 
   componentWillUnmount(){
-
-      this.keyboardDidShowListener.remove();
       clearInterval(this.timer);
   }
 
@@ -184,42 +181,39 @@ export default class App extends Component{
     return (
         <View style={{flex: 1}}>
             
-          <View style={styles.header}>
-            
+         <View style={styles.header}>
             <Image style={styles.image} source={{uri: this.photo}}/>
             <View style={styles.align}>   
-              <Text style={styles.title}>{this.name}</Text>
+               <Text style={styles.title}>{this.name}</Text>
                <Text style={styles.status}>{this.state.status}</Text>
             </View>
-          
-           
-          
-          </View>
+         </View>
             
-            <FlatList style={styles.msgs}
+         <FlatList style={styles.msgs}
             ref={ref => {this.scroll = ref}}
-            onContentSizeChange={() => this.scroll.scrollToEnd({animated: false})}
             data={this.state.msgs}
             keyExtractor={(item) => {return this.generateKey(item)}}
             renderItem={(item) => this.renderItem(item)}
+            initalNumToRender={30}
+            inverted={-1}
+            ListHeaderComponent={<Text style={styles.ReadedStatus}>{this.state.hasSeen ? "Seen" : ""}</Text>}
             ListFooterComponent={<View style={{ height: 0, marginBottom: 30 }}></View>}
-            />
+         />
       
 
-          <View style={styles.in}>
+         <View style={styles.in}>
             <TextInput 
               value={this.state.input} 
               onChangeText={(value) => {this.setState({input: value})}} 
               multiline style={styles.on} 
-              placeholder={"Mensagem"} />
+              placeholder={"Message"} />
             
               <TouchableNativeFeedback onPress={this.addMsg.bind(this)}>
-                  <View style={styles.btc}>
-                        <Text>Enviar</Text>    
-                  </View>
-               </TouchableNativeFeedback>
-
-            </View>
+              <View style={styles.btc}>
+                    <Text>Send</Text>    
+              </View>
+            </TouchableNativeFeedback>
+         </View>
         
         </View>
       )
@@ -309,5 +303,11 @@ const styles = StyleSheet.create({
     height: "100%",
     alignItems: "center",
     justifyContent: "center",
-  }
+  },
+  ReadedStatus: {
+   alignSelf: "flex-end",
+   marginTop: 10,
+   marginRight: 25,
+   color: "#888",
+  },
 });
