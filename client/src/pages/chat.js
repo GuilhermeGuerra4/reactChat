@@ -42,7 +42,6 @@ export default class App extends Component{
   }
 
   addMsg(){
-   console.log(this.scroll);
    this.scrollBottom();
    if(this.state.input.trim() != ""){
    this.conn.sendMessage(this.token, this.state.input, this.email);

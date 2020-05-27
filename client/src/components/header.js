@@ -1,8 +1,6 @@
 import React, {Component} from "react";
-import {View, Text, StyleSheet, TouchableOpacity, Image, StatusBar} from "react-native";
-
-const settingsIcon = require("../assets/imgs/settings_white.png");
-
+import {View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, UIManager} from "react-native";
+import PopupMenu from "./popup";
 export default class Header extends Component{
 	
 	constructor(props){
@@ -15,6 +13,11 @@ export default class Header extends Component{
 
 	componentDidMount(){}
 
+	onPopupEvent = (eventName, index) => {
+    if (eventName !== 'itemSelected') return
+    if (index === 0) this.props.signout();
+    else this.onRemove()
+  }
 
 	render(){
 		return(
@@ -22,10 +25,11 @@ export default class Header extends Component{
 			<View style={styles.container}>
 				<StatusBar backgroundColor="#0081ff"/>
 				<Text style={styles.title}>ReactChat</Text>
-				<TouchableOpacity style={styles.icon} onPress={() => {this.props.teste()}}>
-					<Image style={styles.icon} source={settingsIcon}/>
-				</TouchableOpacity>
+				<View style={styles.icon}>
+					<PopupMenu actions={['Logout']}  onPress={this.onPopupEvent}/>
+				</View>
 			</View>
+
 		)
 	}
 }
@@ -47,9 +51,11 @@ const styles = StyleSheet.create({
 		color: "#fff",
 	},
 	icon: {
-		width: 32,
-		height: 32,
+		width: 60,
+		height: "100%",
 		position: "absolute",
-		right: 5,
-	}
+		right: 0,
+		justifyContent: "center",
+	},
+
 });

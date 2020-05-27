@@ -134,7 +134,7 @@ export default class App extends Component{
 						</View>
 					</TouchableNativeFeedback>
 
-					<Header teste={() => {this.context.signOut()}}/>		
+					<Header signout={() => {this.context.signOut()}}/>		
 
 					{
 						this.state.isLoading == false ? (
