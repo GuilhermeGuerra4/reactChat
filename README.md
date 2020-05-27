@@ -20,6 +20,11 @@ A simple app chat created with react-native
 - add contact by email
 - login with google signin button
 
+## stack used
+- Flask
+- Flask Socket-io
+- React-native
+- Sqlite3
 
 ## to-do next
 
