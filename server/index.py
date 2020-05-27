@@ -58,9 +58,7 @@ def get_messages():
 	contacts = get_contacts(message['token'], message['page'], message['limit']);
 	i = 0
 	new_array = []
-	print("contacts: ", contacts)
 	for contact in contacts:
-		print('contact: ', contact)
 		last = get_last_sent_to_me(contact, message['token'])
 		if last == None:
 			text = ''
@@ -145,6 +143,5 @@ def get_status(status):
 def update_readed(update):
 	if verify_token(update['token']) == True:
 		updateReaded(get_user_id_by_token(update['token']), get_user_id_by_email(update['email']))
-
 
 socketio.run(app, host="0.0.0.0", port=3000, debug=True)
