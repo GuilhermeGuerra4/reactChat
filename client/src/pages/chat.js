@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Text, Image, View, StyleSheet, FlatList, TextInput, TouchableNativeFeedback, Keyboard, TouchableOpacity} from "react-native";
+import {Text, Image, View, StyleSheet, FlatList, TextInput, ActivityIndicator, TouchableNativeFeedback, Keyboard, TouchableOpacity} from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -166,6 +166,12 @@ export default class App extends Component{
     )
   }
 
+  FlatListEmpty(){
+    return(
+        <ActivityIndicator color={"#0088ff"} size={45}/>
+      )
+  }
+
   async logout(){
    
     try{
@@ -196,6 +202,7 @@ export default class App extends Component{
             renderItem={(item) => this.renderItem(item)}
             initalNumToRender={30}
             inverted={-1}
+            ListEmptyComponent={this.FlatListEmpty()}
             ListHeaderComponent={<Text style={styles.ReadedStatus}>{this.state.hasSeen ? "Seen" : ""}</Text>}
             ListFooterComponent={<View style={{ height: 0, marginBottom: 30 }}></View>}
          />
@@ -309,5 +316,8 @@ const styles = StyleSheet.create({
    marginTop: 10,
    marginRight: 25,
    color: "#888",
+  },
+  loading: {
+
   },
 });
