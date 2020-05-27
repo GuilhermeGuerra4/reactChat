@@ -10,7 +10,6 @@ export default class ChatItem extends Component{
 	}
 
 	componentDidMount(){
-		console.log('readed: ', this.data.readed);
 	}
 
 	goToChat(name, email, photo){
