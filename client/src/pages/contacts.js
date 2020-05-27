@@ -25,8 +25,7 @@ export default class App extends Component{
 			index: 0,
 			updated: false,
 			isLoading: true,
-			messages: [
-			],
+			messages: [],
 		};
 
 		console.ignoredYellowBox = ['Remote debugger'];
@@ -41,20 +40,21 @@ export default class App extends Component{
 		});
 	}
 
-	async add(token){
+	add(token){
 		try{
-			await httpsRequest.post('/get_messages', 'token='+token+'&limit=10&page=1').then((res) => {
+			httpsRequest.post('/get_messages', 'token='+token+'&limit=10&page=1').then((res) => {
 				
-				console.log(res.data);
+				const payload = res.data;
 				
-				if(res.data.messages.length != 0){
-					this.setState({messages: [...res.data.messages, ...this.state.messages], isLoading: false})
+				if(payload.status == true){
+					if(payload.messages.length > 0){
+						this.setState({messages: [...payload.messages, ...this.state.messages], isLoading: false})
+					}
+					else{
+						this.setState({isLoading: false});
+					}
 				}
-				else{
-					this.setState({isLoading: false})
-				}
-
-
+				
 			}, {'Content-Type': 'application/x-www-form-urlencoded',});
 		}
 		catch(error){
@@ -64,11 +64,9 @@ export default class App extends Component{
 
 
 	stateHandler(new_message){
-		console.log(new_message);
 		let isNew = true;
 		let itemIndex;
 		let newArray = this.state.messages;
-
 		for(i = 0; i<this.state.messages.length;i++){
 			if(this.state.messages[i].from.email == new_message.from.email){
 				isNew = false;
