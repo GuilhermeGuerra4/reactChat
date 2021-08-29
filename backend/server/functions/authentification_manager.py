@@ -25,4 +25,3 @@ def verify_id_token(email=None, id_token=None):
 def token_generator(user_email):
 	token = hashlib.sha256((user_email+salt).encode('ascii')).hexdigest()
 	return token
-

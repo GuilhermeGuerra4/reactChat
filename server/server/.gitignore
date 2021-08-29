@@ -1,4 +1,0 @@
-*.db
-client/
-tests.py
-__pycache__/
