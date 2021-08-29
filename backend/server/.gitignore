@@ -1,0 +1,5 @@
+*.db
+client/
+tests.py
+.env
+__pycache__/
