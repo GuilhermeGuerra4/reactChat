@@ -1,7 +1,7 @@
 import React, {Component, useEffect, useState} from "react";
 import {View, Text, FlatList, TouchableOpacity, TouchableNativeFeedback, ActivityIndicator, YellowBox, StyleSheet} from "react-native";
 
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Header from "../components/header";
 import ChatItem from "../components/chat-item";

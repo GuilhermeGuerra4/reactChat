@@ -9,24 +9,25 @@ import ContactsScreen from "./pages/contacts";
 import ConfigsScreen from "./pages/configs";
 import AddContactScreen from "./pages/addContact";
 
-
 import {DefaultTransition} from "./animations/defaultTransition";
 
 import {View, Text, Animated} from "react-native";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {AuthContext} from "./components/context";
 import httpsRequest from "./functions/httpRequest";
 
 
-import {GoogleSignin,GoogleSigninButton, statusCodes} from '@react-native-community/google-signin';
+import {GoogleSignin,GoogleSigninButton, statusCodes} from '@react-native-google-signin/google-signin';
+
+
 
 import { TransitionPresets, TransitionSpecs, HeaderStyleInterpolators } from '@react-navigation/stack';
 
 
 
 GoogleSignin.configure({
-	webClientId: '797686492314-eo7d48gt3lmceqem9n7qbg9q39sbd3cm.apps.googleusercontent.com',
+	webClientId: '139919511626-3d5pmtu94e0jlmii5rliufnjbqtbkbvf.apps.googleusercontent.com',
 	offlineAccess: true, 
 	forceCodeForRefreshToken: true,
 });
@@ -72,7 +73,12 @@ export default function App(){
 		
 		signIn: async () => {
 			try{
-				await GoogleSignin.hasPlayServices();
+				let hasPlayServices = await GoogleSignin.hasPlayServices();
+
+				if(!hasPlayServices){
+					alert("No Play Services")
+				}
+
 				const userInfo = await GoogleSignin.signIn();
 
 				const data = [

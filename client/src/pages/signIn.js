@@ -1,8 +1,8 @@
 import * as React from "react";
 import {Text, View, StyleSheet} from "react-native";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {AuthContext} from "../components/context";
-import {GoogleSigninButton} from "@react-native-community/google-signin";
+import {GoogleSigninButton} from '@react-native-google-signin/google-signin';
 
 export default class App extends React.Component{
 
