@@ -17,21 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {AuthContext} from "./components/context";
 import httpsRequest from "./functions/httpRequest";
 
-
-import {GoogleSignin,GoogleSigninButton, statusCodes} from '@react-native-google-signin/google-signin';
-
-
-
 import { TransitionPresets, TransitionSpecs, HeaderStyleInterpolators } from '@react-navigation/stack';
-
-
-
-GoogleSignin.configure({
-	webClientId: '139919511626-3d5pmtu94e0jlmii5rliufnjbqtbkbvf.apps.googleusercontent.com',
-	offlineAccess: true, 
-	forceCodeForRefreshToken: true,
-});
-
 
 const Stack = createStackNavigator();
 
