@@ -1,22 +1,22 @@
 import { StyleSheet } from 'react-native';
 
-export const typography = StyleSheet.create({
+export const fonts = StyleSheet.create({
     xl: {
-        fontSize: 17
+        fontSize: 19
     },
     l: {
-        fontSize: 15
+        fontSize: 17
     },
     m: {
-        fontSize: 11
+        fontSize: 13
     },
     xs: {
-        fontSize: 10
+        fontSize: 11
     },
     bold: {
-        fontWeight: 700,
+        fontWeight: "700",
     },
     normal: {
-        fontWeight: 400,
+        fontWeight: "400",
     }
 });
